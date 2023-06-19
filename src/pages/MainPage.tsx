@@ -7,10 +7,14 @@ import useGet from '../hooks/useGet';
 import { MEMBER_BASE_URL } from '../constants/url';
 import { useEffect } from 'react';
 import { MemberInfo } from '../types';
+import ErrorBoundary from '../components/@common/ErrorBoundary';
+import NotFound from './NotFound';
+import { useReset } from '../hooks/useReset';
 
 const MainPage = () => {
   const setMember = useSetRecoilState(memberState);
   const serverUrl = useRecoilValue(serverState);
+  const { onReset } = useReset();
 
   const { data: memberData } = useGet<MemberInfo>(`${serverUrl}${MEMBER_BASE_URL}`);
 
@@ -20,7 +24,9 @@ const MainPage = () => {
 
   return (
     <ProductListWrapper>
-      <ProductList />
+      <ErrorBoundary fallback={NotFound} onReset={onReset}>
+        <ProductList />
+      </ErrorBoundary>
     </ProductListWrapper>
   );
 };

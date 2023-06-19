@@ -1,9 +1,12 @@
-import React from 'react'
+import React, { Suspense } from 'react'
 import { MemoryRouter } from 'react-router-dom'
 import type { Preview } from '@storybook/react'
 import { RecoilRoot } from 'recoil'
 import { initialize, mswDecorator } from 'msw-storybook-addon'
 import { GlobalStyle } from '../src/GlobalStyle'
+import { ErrorBoundary } from 'react-error-boundary'
+import NotFound from '../src/pages/NotFound'
+import { LoadingSpinner } from '../src/components/@common/LoadingSpinner/LoadingSpinner'
 
 let options = {}
 if (location.hostname === 'regularpark.github.io') {
@@ -60,10 +63,14 @@ const preview: Preview = {
   decorators: [
     (Story) => (
       <RecoilRoot>
-        <GlobalStyle />
-        <MemoryRouter initialEntries={['/']}>
-          <Story />
-        </MemoryRouter>
+        <ErrorBoundary FallbackComponent={NotFound}>
+          <Suspense fallback={<LoadingSpinner />}>
+            <GlobalStyle />
+            <MemoryRouter initialEntries={['/']}>
+              <Story />
+            </MemoryRouter>
+          </Suspense>
+        </ErrorBoundary>
       </RecoilRoot>
     ),
     mswDecorator,
