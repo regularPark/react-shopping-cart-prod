@@ -7,6 +7,7 @@ const meta = {
   component: Toast,
   tags: ['autodocs'],
   args: {
+    id: '1',
     message: 'Show toasts',
     type: 'success',
   },

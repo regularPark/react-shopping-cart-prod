@@ -4,19 +4,16 @@ import { css, keyframes, styled } from 'styled-components';
 import useToast from '../../../hooks/useToast';
 import { ToastItem } from '../../../types';
 
-const Toast = ({ message, type }: ToastItem) => {
-  const [isShow, setIsShow] = useState(false);
-  const { resetToast } = useToast();
+const Toast = ({ id, message, type }: ToastItem) => {
+  const [isShow, setIsShow] = useState(true);
+  const { deleteToast } = useToast();
 
   useEffect(() => {
-    setIsShow(true);
-    const timer = setTimeout(() => {
-      setIsShow(false);
-      resetToast();
-    }, 1500);
-
-    clearTimeout(timer);
-  }, [setIsShow]);
+    setTimeout(() => setIsShow(false), 3000);
+    if (!isShow) {
+      setTimeout(() => deleteToast(id), 500);
+    }
+  }, [isShow]);
 
   return (
     <S.Toast type={type} $isShowToast={isShow}>
@@ -25,29 +22,34 @@ const Toast = ({ message, type }: ToastItem) => {
   );
 };
 
-const toastAnimation = keyframes` 
-  0% {
+const fadeIn = keyframes` 
+  from {
     opacity: 0;
   }
-  50%{
+  to {
     opacity: 1;
   }
-  100% {
+`;
+
+const fadeOut = keyframes` 
+  from {
+    opacity: 1;
+  }
+  to {
     opacity: 0;
   }
 `;
 
 const S = {
   Toast: styled.div<{ type: 'success' | 'error'; $isShowToast: boolean }>`
+    position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
-    position: fixed;
     width: calc(100vw - 70vw);
     min-width: 300px;
     height: 50px;
     left: 10%;
-    bottom: 100px;
     color: #fff;
     font-size: 18px;
     background-color: ${(props) => (props.type === 'success' ? '#04c09e' : '#ea3b52')};
@@ -56,11 +58,10 @@ const S = {
     ${({ $isShowToast }) => {
       return $isShowToast
         ? css`
-            display: flex;
-            animation: ${toastAnimation} 1.5s forwards;
+            animation: ${fadeIn} 3s ease-in-out forwards;
           `
         : css`
-            display: none;
+            animation: ${fadeOut} 3s linear forwards;
           `;
     }}
   `,

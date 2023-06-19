@@ -1,29 +1,30 @@
 import { ToastType } from '../types';
 import { useSetRecoilState } from 'recoil';
 import ToastState from '../store/ToastState';
+import uuid from 'react-uuid';
 
 const useToast = () => {
   const setToastItem = useSetRecoilState(ToastState);
 
-  const showToast = (message: string, type: ToastType) => {
-    setToastItem((prev) => [...prev, { message, type }]);
+  const showToast = (id: string, message: string, type: ToastType) => {
+    setToastItem((prev) => [...prev, { id, message, type }]);
   };
 
   const toast = {
     success: (message: string) => {
-      showToast(message, 'success');
+      showToast(uuid(), message, 'success');
     },
 
     error: (message: string) => {
-      showToast(message, 'error');
+      showToast(uuid(), message, 'error');
     },
   };
 
-  const resetToast = () => {
-    setToastItem([]);
+  const deleteToast = (id: string) => {
+    setToastItem((prev) => prev.filter((toastItem) => toastItem.id !== id));
   };
 
-  return { toast, resetToast };
+  return { toast, deleteToast };
 };
 
 export default useToast;
