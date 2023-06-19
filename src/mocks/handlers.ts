@@ -1,7 +1,7 @@
 import { rest } from 'msw';
-import { products } from './mockData';
+import { member, orderItemDetail, orderItemList, products } from './mockData';
 import { CartItem, OrderItem } from '../types';
-import { CART_BASE_URL, ORDER_BASE_URL, PRODUCT_BASE_URL } from '../constants/url';
+import { CART_BASE_URL, MEMBER_BASE_URL, ORDER_BASE_URL, PRODUCT_BASE_URL } from '../constants/url';
 import { getLocalStorage, setDataInLocalStorage } from '../utils/localStorage';
 import { CART_ITEM_INDEX } from '../constants';
 import { serverUrlObj } from '../constants/url';
@@ -17,7 +17,7 @@ const setOrder = (updatedOrder: OrderItem[]) =>
 export const handlers = [
   // 상품 조회
   rest.get(`${serverUrlObj['MSW']}${PRODUCT_BASE_URL}`, (req, res, ctx) =>
-    res(ctx.delay(100), ctx.status(200), ctx.json(products)),
+    res(ctx.delay(1000), ctx.status(200), ctx.json(products)),
   ),
 
   // 장바구니 아이템 목록 조회
@@ -40,7 +40,6 @@ export const handlers = [
     };
 
     const updatedCart = [...getCart(), updatedItem];
-
     setCart(updatedCart);
 
     return res(ctx.status(201), ctx.json(updatedItem));
@@ -50,8 +49,10 @@ export const handlers = [
   rest.patch<CartItem>(`${serverUrlObj['MSW']}${CART_BASE_URL}/:id`, async (req, res, ctx) => {
     const { productId, quantity } = await req.json();
 
-    const cartItemIndex = getCart().findIndex((item) => item.product.id === productId);
+    console.log('productId', productId);
 
+    const cartItemIndex = getCart().findIndex((item) => item.product.id === productId);
+    console.log(cartItemIndex);
     if (cartItemIndex === -1) {
       return res(ctx.status(404));
     }
@@ -94,33 +95,21 @@ export const handlers = [
 
   // 주문 조회
   rest.get(`${serverUrlObj['MSW']}${ORDER_BASE_URL}`, (req, res, ctx) => {
-    return res(ctx.delay(100), ctx.status(200), ctx.json(getOrder()));
+    return res(ctx.delay(100), ctx.status(200), ctx.json(orderItemList));
   }),
 
-  // // 주문하기
-  // rest.post(`${serverUrlObj['MSW']}${ORDER_BASE_URL}`, async (req, res, ctx) => {
-  //   const { cartIds, point } = await req.json();
-
-  //   if (cartIds.length === 0) {
-  //     return res(ctx.status(400));
-  //   }
-
-  //   const orderId = Math.random();
-
-  //   const newOrder: OrderItem = {
-  //     orderId,
-  //     orderProducts: getCart().filter((item) => cartIds.includes(item.id)),
-  //   };
-
-  //   setOrder([...getOrder(), newOrder]);
-
-  //   const updateCart = getCart().filter((item) => !cartIds.includes(item.id));
-
-  //   setCart(updateCart);
-
-  //   return res(ctx.status(201));
-  // }),
+  // 주문하기
+  rest.post(`${serverUrlObj['MSW']}${ORDER_BASE_URL}`, async (req, res, ctx) => {
+    return res(ctx.status(201));
+  }),
 
   // 주문 상세 조회
-  // api.
+  rest.get(`${serverUrlObj['MSW']}${ORDER_BASE_URL}/:id`, async (req, res, ctx) =>
+    res(ctx.status(200), ctx.json(orderItemDetail)),
+  ),
+
+  // 사용자 계정 조회
+  rest.get(`${serverUrlObj['MSW']}${MEMBER_BASE_URL}`, async (req, res, ctx) =>
+    res(ctx.json(member)),
+  ),
 ];

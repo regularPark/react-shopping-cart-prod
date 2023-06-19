@@ -1,4 +1,4 @@
-import { Product } from '../types';
+import { MemberInfo, OrderItem, Product } from '../types';
 import { CartItem } from '../types';
 import { getLocalStorage } from '../utils/localStorage';
 
@@ -145,3 +145,92 @@ export const mockOrder = [
     ],
   },
 ];
+
+export const member: MemberInfo = {
+  id: 111,
+  email: 'a@a.com',
+  money: 1000000,
+  point: 100000,
+};
+
+export const orderItemList: OrderItem[] = [
+  {
+    orderId: 1,
+    orderProducts: [
+      {
+        productId: 24,
+        name: '친환경 실링 용기',
+        imageUrl:
+          'https://cdn-mart.baemin.com/sellergoods/main/2ddb9f04-c15d-4647-b6e7-30afb9e8d072.jpg?h=300&w=300',
+        quantity: 3,
+        price: 60000,
+        totalPrice: 180000,
+      },
+      {
+        productId: 25,
+        name: '친환경 실링 용기222',
+        imageUrl:
+          'https://cdn-mart.baemin.com/sellergoods/main/2ddb9f04-c15d-4647-b6e7-30afb9e8d072.jpg?h=300&w=300',
+        quantity: 1,
+        price: 50000,
+        totalPrice: 50000,
+      },
+    ],
+    orderTotalPrice: 31000,
+    usedPoint: 200,
+    createdAt: '2023-05-26 21:00:01',
+  },
+  {
+    orderId: 2,
+    orderProducts: [
+      {
+        productId: 33,
+        name: '아이템 2',
+        imageUrl:
+          'https://cdn-mart.baemin.com/sellergoods/main/2ddb9f04-c15d-4647-b6e7-30afb9e8d072.jpg?h=300&w=300',
+        quantity: 3,
+        price: 1000,
+        totalPrice: 3000,
+      },
+      {
+        productId: 55,
+        name: '아이템 5',
+        imageUrl:
+          'https://cdn-mart.baemin.com/sellergoods/main/2ddb9f04-c15d-4647-b6e7-30afb9e8d072.jpg?h=300&w=300',
+        quantity: 2,
+        price: 14000,
+        totalPrice: 28000,
+      },
+    ],
+    orderTotalPrice: 31000,
+    usedPoint: 200,
+    createdAt: '2023-05-26 21:00:01',
+  },
+];
+
+export const orderItemDetail: OrderItem = {
+  orderId: 1,
+  orderProducts: [
+    {
+      productId: 33,
+      name: '아이템 2',
+      imageUrl:
+        'https://cdn-mart.baemin.com/sellergoods/main/2ddb9f04-c15d-4647-b6e7-30afb9e8d072.jpg?h=300&w=300',
+      quantity: 3,
+      price: 1000,
+      totalPrice: 3000,
+    },
+    {
+      productId: 55,
+      name: '아이템 5',
+      imageUrl:
+        'https://cdn-mart.baemin.com/sellergoods/main/2ddb9f04-c15d-4647-b6e7-30afb9e8d072.jpg?h=300&w=300',
+      quantity: 2,
+      price: 14000,
+      totalPrice: 28000,
+    },
+  ],
+  orderTotalPrice: 31000,
+  usedPoint: 200,
+  createdAt: '2023-05-26 21:00:01',
+};
