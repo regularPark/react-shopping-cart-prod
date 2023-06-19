@@ -5,11 +5,15 @@ import userEvent from '@testing-library/user-event';
 import { expect } from '@storybook/jest';
 import Header from '../../components/Header';
 import { styled } from 'styled-components';
+import { handlers } from '../../mocks/handlers';
 
 const meta = {
   title: 'Pages/product/ProductList',
   component: ProductList,
   tags: ['autodocs'],
+  parameters: {
+    msw:handlers
+  },
   decorators: [
     (Story) => {
       return <Story />;

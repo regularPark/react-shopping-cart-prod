@@ -1,11 +1,15 @@
 import { Meta } from '@storybook/react';
 import OrderListComponent from '../../components/order/OrderList';
 import { styled } from 'styled-components';
+import { handlers } from '../../mocks/handlers';
 
 const meta = {
   component: OrderListComponent,
   title: 'Components/OrderListComponent',
   tags: ['autodocs'],
+  parameters:{
+    msw:handlers
+  },
   decorators: [
     (Story) => {
       return (

@@ -59,7 +59,7 @@ const S = {
   `,
 
   Wrapper: styled.div`
-    width: 50%;
+    width: fit-content;
     height: auto;
   `,
 };

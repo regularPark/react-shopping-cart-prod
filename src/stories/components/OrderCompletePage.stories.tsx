@@ -1,11 +1,13 @@
 import { Meta } from '@storybook/react';
 import OrderCompletePage from '../../pages/OrderCompletePage';
 import { styled } from 'styled-components';
+import { handlers } from '../../mocks/handlers';
 
 const meta = {
   component: OrderCompletePage,
   title: 'Pages/cart/OrderCompletePage',
   tags: ['autodocs'],
+  parameters:{msw:handlers},
   decorators: [
     (Story) => {
       return (
