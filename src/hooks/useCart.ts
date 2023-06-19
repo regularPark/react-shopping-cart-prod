@@ -17,7 +17,7 @@ export const useCart = () => {
   });
   const serverUrl = useRecoilValue(serverState);
 
-  const { mutate, error } = useMutation<CartItem[]>(setCart);
+  const { mutate } = useMutation<CartItem[]>(setCart);
   const { toast } = useToast();
 
   const initializeCheckItems = () => {
@@ -49,27 +49,25 @@ export const useCart = () => {
 
   const handleRemoveCheckedItem = () => {
     const confirmResult = window.confirm('정말로 삭제하시겠습니까?');
-    if (confirmResult) {
-      checkedItems.forEach((id) => {
-        mutate(
-          {
-            url: `${serverUrl}${CART_BASE_URL}/${id}`,
-            method: 'DELETE',
-            bodyData: { id },
-            headers: {
-              Authorization: `Basic ${base64}`,
-              'Content-Type': 'application/json',
-            },
+    if (confirmResult) return; // 모달로 교체예정
+    checkedItems.forEach((id) => {
+      mutate(
+        {
+          url: `${serverUrl}${CART_BASE_URL}/${id}`,
+          method: 'DELETE',
+          bodyData: { id },
+          headers: {
+            Authorization: `Basic ${base64}`,
+            'Content-Type': 'application/json',
           },
-          CART_BASE_URL,
-        );
-        if (error) return;
+        },
+        CART_BASE_URL,
+      );
 
-        toast.success(`${checkedItems.length}개의 상품을 장바구니에서 삭제했습니다.`);
-        removeProductItemFromCart(id);
-      });
-      setCheckedItems([]);
-    }
+      toast.success(`${checkedItems.length}개의 상품을 장바구니에서 삭제했습니다.`);
+      removeProductItemFromCart(id);
+    });
+    setCheckedItems([]);
   };
 
   return {

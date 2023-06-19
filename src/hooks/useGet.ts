@@ -2,16 +2,17 @@
 import { useEffect, useState } from 'react';
 import { base64 } from '../constants';
 import useToast from './useToast';
+import { useErrorBoundary } from 'react-error-boundary';
 
 const useGet = <T>(url: string) => {
   const [data, setData] = useState<T | null>(null);
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+
   const { toast } = useToast();
+  const { showBoundary } = useErrorBoundary();
 
   useEffect(() => {
     setIsLoading(true);
-    setError(null);
 
     fetch(url, {
       method: 'GET',
@@ -26,20 +27,20 @@ const useGet = <T>(url: string) => {
         }
 
         if (!response.ok) {
-          throw new Error('에러가 발생하였습니다.');
+          throw new Error('불러오기 실패.');
         }
 
         return response.json();
       })
       .then((responseData) => setData(responseData))
       .catch((error: Error) => {
-        toast.error('목록 불러오기에 실패했습니다.');
-        setError(error.message);
+        if (url.includes('products')) toast.error('상품 목록 불러오기에 실패했습니다.');
+        showBoundary(error);
       })
       .finally(() => setIsLoading(false));
   }, [url]);
 
-  return { data, isLoading, error };
+  return { data, isLoading };
 };
 
 export default useGet;
