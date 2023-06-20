@@ -23,7 +23,7 @@ const LoadingSpinnerStyle = styled.div`
     position: absolute;
     left: 8px;
     width: 16px;
-    background: #aaa;
+    background: var(--mint-color);
     animation: ${loadingSpinnerAnimation} 1s cubic-bezier(0, 0.5, 0.5, 1) infinite;
   }
 
