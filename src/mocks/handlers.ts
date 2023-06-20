@@ -1,6 +1,6 @@
 import { rest } from 'msw';
 import { member, orderItemDetail, orderItemList, products } from './mockData';
-import { CartItem, OrderItem } from '../types';
+import { CartItem } from '../types';
 import { CART_BASE_URL, MEMBER_BASE_URL, ORDER_BASE_URL, PRODUCT_BASE_URL } from '../constants/url';
 import { getLocalStorage, setDataInLocalStorage } from '../utils/localStorage';
 import { CART_ITEM_INDEX } from '../constants';
@@ -10,9 +10,9 @@ const getCart = () => getLocalStorage<CartItem[]>('cart', []);
 const setCart = (updatedCart: CartItem[]) => setDataInLocalStorage<CartItem[]>('cart', updatedCart);
 const getProduct = (id: number) => products.find((item) => item.id === id);
 
-const getOrder = () => getLocalStorage<OrderItem[]>('order', []);
-const setOrder = (updatedOrder: OrderItem[]) =>
-  setDataInLocalStorage<OrderItem[]>('order', updatedOrder);
+// const getOrder = () => getLocalStorage<OrderItem[]>('order', []);
+// const setOrder = (updatedOrder: OrderItem[]) =>
+//   setDataInLocalStorage<OrderItem[]>('order', updatedOrder);
 
 export const handlers = [
   // 상품 조회
