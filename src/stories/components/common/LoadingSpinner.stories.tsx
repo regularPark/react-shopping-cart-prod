@@ -3,7 +3,7 @@ import { Meta, StoryObj } from '@storybook/react';
 import { LoadingSpinner } from '../../../components/@common/LoadingSpinner/LoadingSpinner';
 
 const meta = {
-  title: 'Components/Common/Spinner',
+  title: 'Components/Common/Spinner/BasicLoadingSpinner',
   component: LoadingSpinner,
 } satisfies Meta<typeof LoadingSpinner>;
 

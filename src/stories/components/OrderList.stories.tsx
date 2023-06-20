@@ -3,9 +3,10 @@ import OrderListComponent from '../../components/order/OrderList';
 import { styled } from 'styled-components';
 import { handlers } from '../../mocks/handlers';
 
+
 const meta = {
   component: OrderListComponent,
-  title: 'Components/OrderListComponent',
+  title: 'Pages/order/OrderList',
   tags: ['autodocs'],
   parameters:{
     msw:handlers
@@ -81,10 +82,11 @@ const meta = {
 export default meta;
 
 export const OrderList = (args: any) => {
+  const {orders} = args;
   return (
-    <>
-      <OrderListComponent orders={args} />
-    </>
+      <S.Wrapper>
+      <OrderListComponent orders={orders} />
+      </S.Wrapper>
   );
 };
 
@@ -97,7 +99,10 @@ const S = {
   `,
 
   Wrapper: styled.div`
-    width: 50%;
+  display: flex;
+  flex-direction: column;
+  gap: 80px;
+    width: calc(100vw - 20vw);
     height: auto;
   `,
 };

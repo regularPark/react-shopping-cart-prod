@@ -5,9 +5,9 @@ import { handlers } from '../../mocks/handlers';
 
 const meta = {
   component: OrderCompletePage,
-  title: 'Pages/cart/OrderCompletePage',
+  title: 'Pages/order/OrderCompletePage',
   tags: ['autodocs'],
-  parameters:{msw:handlers},
+  parameters: { msw: handlers },
   decorators: [
     (Story) => {
       return (
@@ -18,9 +18,11 @@ const meta = {
     },
   ],
   args: {
-    orders:[{
-        orderId:1,
-        orderProducts:[{
+    orders: [
+      {
+        orderId: 1,
+        orderProducts: [
+          {
             id: 1,
             quantity: 3,
             product: {
@@ -34,15 +36,16 @@ const meta = {
             id: 2,
             quantity: 1,
             product: {
-                id: 2,
-                name: 'PET보틀-밀크티(370ml)',
-                price: 73400,
-                imageUrl:
-                  'https://cdn-mart.baemin.com/sellergoods/main/ac90cb6d-70ad-4271-a25e-03e4db9a9960.jpg?h=300&w=300',
-              },
-          }],
-    }],
-     
+              id: 2,
+              name: 'PET보틀-밀크티(370ml)',
+              price: 73400,
+              imageUrl:
+                'https://cdn-mart.baemin.com/sellergoods/main/ac90cb6d-70ad-4271-a25e-03e4db9a9960.jpg?h=300&w=300',
+            },
+          },
+        ],
+      },
+    ],
   },
   argTypes: {
     orders: {
@@ -53,10 +56,10 @@ const meta = {
 
 export default meta;
 
-export const OrderList = (args: any) => {
+export const OrderComplete = (args: any) => {
   return (
     <>
-      <OrderCompletePage/>
+      <OrderCompletePage />
     </>
   );
 };

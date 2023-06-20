@@ -1,11 +1,13 @@
 import { Meta } from '@storybook/react';
 import HeaderComponent from '../../../components/Header';
 import { styled } from 'styled-components';
+import { handlers } from '../../../mocks/handlers';
 
 const meta = {
   component: HeaderComponent,
   title: 'Components/Common/Header',
   tags: ['autodocs'],
+  parameters: { msw: handlers },
   decorators: [
     (Story) => {
       return (
