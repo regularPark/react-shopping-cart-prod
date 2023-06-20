@@ -9,6 +9,7 @@ import { OrderItem } from '../types';
 import { checkedItemsState } from '../store/CartState';
 import { removeProductItemFromCartSelector } from '../store/CartSelector';
 import useNavigatePage from './useNavigatePage';
+import useToast from './useToast';
 
 const useOrder = () => {
   const setOrder = useSetRecoilState(orderState);
@@ -16,6 +17,7 @@ const useOrder = () => {
   const removeProductItemFromCart = useRecoilCallback(({ set }) => (id: number) => {
     set(removeProductItemFromCartSelector(id), []);
   });
+  const { toast } = useToast();
 
   const { mutate: mutateOrder } = useMutation<OrderItem[]>(setOrder);
   const serverUrl = useRecoilValue(serverState);
@@ -30,26 +32,31 @@ const useOrder = () => {
     setCheckedItems([]);
   };
 
-  const handleOrderItems = (cartIds: number[], point: number, deliveryFee: number) => {
+  const handleOrderItems = async (cartIds: number[], point: number, deliveryFee: number) => {
     const confirmResult = window.confirm('주문을 진행하시겠습니까?');
     if (confirmResult) {
-      mutateOrder(
-        {
-          url: `${serverUrl}${ORDER_BASE_URL}`,
-          method: 'POST',
-          bodyData: { cartIds, point, deliveryFee },
-          headers: {
-            Authorization: `basic ${base64}`,
-            'content-type': 'application/json',
+      try {
+        const responseResult = await mutateOrder(
+          {
+            url: `${serverUrl}${ORDER_BASE_URL}`,
+            method: 'POST',
+            bodyData: { cartIds, point, deliveryFee },
+            headers: {
+              Authorization: `basic ${base64}`,
+              'content-type': 'application/json',
+            },
           },
-        },
-        ORDER_BASE_URL,
-      );
+          ORDER_BASE_URL,
+        );
 
-      if (orderData) setOrder(orderData);
-      handleRemoveCheckedItem(cartIds);
+        if (responseResult.status !== 201) throw new Error('상품 주문하기를 실패했습니다.');
+        if (orderData) setOrder(orderData);
+        handleRemoveCheckedItem(cartIds);
 
-      goOrderComplete();
+        goOrderComplete();
+      } catch (error) {
+        if (error instanceof Error) toast.error(error.message);
+      }
     }
   };
 
