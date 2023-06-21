@@ -12,7 +12,7 @@ let options = {}
 if (location.hostname === 'regularpark.github.io') {
   options = {
     serviceWorker: {
-      url: '/react-shopping-shop/mockServiceWorker.js',
+      url: '/react-shopping-cart-prod/mockServiceWorker.js',
     },
   }
 }
